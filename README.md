@@ -1,48 +1,11 @@
--- ══════════════════════════════════════════
--- MiniStore — Schema y datos de prueba
--- ══════════════════════════════════════════
+¿Por qué usaste LEFT JOIN para la Consulta 1 y no INNER JOIN? ¿Qué se perdería si usaras INNER JOIN?
+use left join porque queria ver aquellos productos sin venta. en caso de haber usado inner join, tendria todos los productos que fueron vendidos
 
-DROP TABLE IF EXISTS ventas;
-DROP TABLE IF EXISTS productos;
+¿Por qué usaste RIGHT JOIN para la Consulta 2? ¿Qué tabla está a la izquierda y cuál a la derecha en tu consulta?
+use right join porque queria ver las ventas que no estaban relacionadas a un producto. a mi izquierda tenia los productos, y a mi derecha las ventas
 
--- Tabla de catálogo de productos
-CREATE TABLE productos (
-    producto_id   INT PRIMARY KEY,
-    nombre        VARCHAR(100) NOT NULL,
-    categoria     VARCHAR(50)  NOT NULL,
-    precio        DECIMAL(10,2)
-);
+¿Qué representan los valores NULL en cada resultado? Explicá con un ejemplo concreto de los datos qué significa que venta_id sea NULL en la Consulta 1 y que producto_id de productos sea NULL en la Consulta 2.
+los valores null en cada resultado representan registros faltantes. en consulta 1 significa que hay productos que no fueron vendidos, mientras que en consulta dos significa que hay ventas las cuales parecen no estar relacionadas con algun producto
 
--- Tabla de transacciones de ventas
-CREATE TABLE ventas (
-    venta_id     INT PRIMARY KEY,
-    producto_id  INT,
-    cliente_id   INT,
-    cantidad     INT          NOT NULL,
-    fecha_venta  DATE         NOT NULL
-);
-
--- Datos: productos del catálogo (incluye productos nunca vendidos)
-INSERT INTO productos VALUES (101, 'Laptop Pro 15',      'Computación',    1200.00);
-INSERT INTO productos VALUES (102, 'Mouse Inalámbrico',  'Accesorios',       28.00);
-INSERT INTO productos VALUES (103, 'Monitor 4K 27"',     'Computación',     450.00);
-INSERT INTO productos VALUES (104, 'Teclado Mecánico',   'Accesorios',       95.00);
-INSERT INTO productos VALUES (105, 'Auriculares BT Pro', 'Audio',           120.00);
-INSERT INTO productos VALUES (106, 'SSD Externo 1TB',    'Almacenamiento',  130.00);
-INSERT INTO productos VALUES (107, 'Webcam HD 1080p',    'Accesorios',       85.00);
--- Estos dos productos NUNCA fueron vendidos (importantes para el LEFT JOIN)
-INSERT INTO productos VALUES (108, 'Hub USB-C 7p',       'Accesorios',       45.00);
-INSERT INTO productos VALUES (109, 'Parlante Bluetooth', 'Audio',            60.00);
-
--- Datos: ventas (incluye un producto_id inexistente en el catálogo)
-INSERT INTO ventas VALUES (1, 101, 201, 2, '2024-01-05');
-INSERT INTO ventas VALUES (2, 102, 202, 5, '2024-01-08');
-INSERT INTO ventas VALUES (3, 103, 203, 1, '2024-01-12');
-INSERT INTO ventas VALUES (4, 101, 201, 1, '2024-02-03');
-INSERT INTO ventas VALUES (5, 104, 204, 3, '2024-02-10');
-INSERT INTO ventas VALUES (6, 105, 202, 2, '2024-02-18');
-INSERT INTO ventas VALUES (7, 106, 205, 3, '2024-03-05');
-INSERT INTO ventas VALUES (8, 102, 203, 8, '2024-03-12');
-INSERT INTO ventas VALUES (9, 107, 204, 2, '2024-03-20');
--- Esta venta tiene un producto_id que NO existe en el catálogo (importante para el RIGHT JOIN)
-INSERT INTO ventas VALUES (10, 999, 205, 1, '2024-03-25');
+¿Cuándo usarías FULL OUTER JOIN en un caso real de negocio?
+podria utilizar un full outer join a la hora de cerrar un balance o control en especifico sobre un estado de resultado
